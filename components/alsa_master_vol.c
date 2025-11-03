@@ -4,58 +4,22 @@
 #include <string.h>
 #include "../util.h"
 
-#define TMP_BUF_SIZE 14
-#define VOL_BUF_SIZE 5
-
 const char *
 alsa_master_vol(const char *unused)
 {
-	bool MASTER_IS_MUTED = true;
-	char tmp_buf[TMP_BUF_SIZE];
-	short b;
-	unsigned short i = 0;
+        char *cmd = "amixer get Master | tail -n 1 | awk -F'[][]' '{ \
+                     printf $2;\
+                     if ($4 == \"on\") \
+                             print 1; \
+                     else print 0; \
+        }'";
 
-	FILE *fp = popen("amixer get Master | tail -c13", "r");
-	char ch;
-	while ((ch = fgetc(fp)) != EOF && i < TMP_BUF_SIZE)
-		tmp_buf[i++] = ch;
-	tmp_buf[i] = '\0';
-	pclose(fp);
+	FILE *fp = popen(cmd, "r");
+        int vol;
+        int is_on;
+        fscanf(fp, "%d%%%d", &vol, &is_on);
+        pclose(fp);
 
-	b = i - 1;
-	while (b >= 0)
-	{
-		if ('[' == tmp_buf[b])
-		{
-			if (tmp_buf[b+1] == 'o' && tmp_buf[b+2] == 'n')
-				MASTER_IS_MUTED = false;
-			b -= 3;
-			break;
-		}
-		b--;
-	}
-
-        char vol_buf[VOL_BUF_SIZE];
-        while (b >= 0)
-        {
-                if ('[' == tmp_buf[b])
-                        break;
-                b--;
-        }
-
-        i = 0;
-        while (i < VOL_BUF_SIZE)
-        {
-                b++;
-                if (']' == tmp_buf[b])
-                {
-                        vol_buf[i] = '\0';
-                        break;
-                }
-                else
-                        vol_buf[i++] = tmp_buf[b];
-        }
-
-        char *icon = MASTER_IS_MUTED ? "\U000f0581" : "\U000f057e";
-        return bprintf("%s %s", icon, vol_buf);
+        char *icon = is_on ? "\U000f057e"  : "\U000f0581";
+        return bprintf("%s %d%%", icon, vol);
 }
