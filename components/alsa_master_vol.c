@@ -57,5 +57,5 @@ alsa_master_vol(const char *unused)
         }
 
         char *icon = MASTER_IS_MUTED ? "\U000f0581" : "\U000f057e";
-        return bprintf("%s%s", icon, vol_buf);
+        return bprintf("%s %s", icon, vol_buf);
 }

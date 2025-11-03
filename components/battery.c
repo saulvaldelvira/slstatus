@@ -174,7 +174,7 @@
                 }
                 battery_state_t state = get_battery_state(file);
                 const char *icon = get_icon(perc, state);
-                return bprintf("%s%d%%", icon, perc);
+                return bprintf("%s %d%%", icon, perc);
         }
 #elif defined(__OpenBSD__)
 	#include <fcntl.h>

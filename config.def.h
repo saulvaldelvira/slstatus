@@ -1,7 +1,10 @@
 /* See LICENSE file for copyright and license details. */
 
 /* interval between updates (in ms) */
-const unsigned int interval = 1000;
+const unsigned int interval = 10000;
+
+#define ONE_MIN 6
+#define TEN_MIN 60
 
 /* text to show if no value can be retrieved */
 static const char unknown_str[] = "n/a";
@@ -69,15 +72,21 @@ static const int skip_fmt_on_empty_str = 1;
 
 #define SEP " | "
 
+const char callendar_cmd[] = {
+#embed "components/calcurse_next.sh"
+,0
+};
+
 static const struct arg args[] = {
-	/* function format          argument turn signal */
+	/* function             format            argument        turn      signal */
+        { run_command,  " \U0000f073 %s"SEP,    callendar_cmd,  TEN_MIN,  -1},
+        { cpu_load,     "\U0000f4bc %s"SEP,     "", 1, -1 },
+        { temp,         "%sºC"SEP,              "/sys/class/thermal/thermal_zone0/temp", 1, -1 },
         // { wifi_essid, "\U000f0317 [%s]"SEP, "eth0", 60, -1 },
-        { cpu_load, "\U0000f4bc %s"SEP, "", 5, -1 },
-        { temp, "%sºC"SEP, "/sys/class/thermal/thermal_zone0/temp", 10, -1 },
-        { wifi_essid, "\uf1eb [%s]"SEP, "wlan0", 60, -1 },
-        { battery, "%s" SEP, "BAT1PEP", 60, -1 },
-        { alsa_master_vol, "%s" SEP, "", 60, -1 },
-	{ datetime, "%s",           "%H:%M %d-%m-%Y", 60,   -1 },
+        { wifi_essid,   "\uf1eb [%s]"SEP,       "wlan0", ONE_MIN, -1 },
+        { battery,      "%s" SEP,               "BAT1", ONE_MIN, -1 },
+        { alsa_master_vol, "%s" SEP,            "", ONE_MIN, 1 },
+	{ datetime,        "%s",                "%H:%M %d-%m-%Y", ONE_MIN,   -1 },
 };
 
 /* maximum output string length */
