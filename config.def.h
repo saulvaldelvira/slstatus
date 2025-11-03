@@ -66,7 +66,7 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument turn signal */
-	{ datetime, "%s",           "%F %T", 1,   -1 },
+	{ datetime, "%s",           "%H:%M %d-%m-%Y", 60,   -1 },
 };
 
 /* maximum output string length */
