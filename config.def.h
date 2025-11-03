@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* interval between updates (in ms) */
+#include <limits.h>
 const unsigned int interval = 10000;
 
 #define ONE_MIN 6
@@ -77,15 +78,21 @@ const char callendar_cmd[] = {
 ,0
 };
 
+const char cmus_cmd[] = {
+#embed "components/cmus_status.sh"
+,0
+};
+
 static const struct arg args[] = {
 	/* function             format            argument        turn      signal */
+        { run_command, "\U0000f001 %s" SEP, cmus_cmd, INT_MAX, 2 },
         { run_command,  " \U0000f073 %s"SEP,    callendar_cmd,  TEN_MIN,  -1},
         { cpu_load,     "\U0000f4bc %s"SEP,     "", 1, -1 },
         { temp,         "%sºC"SEP,              "/sys/class/thermal/thermal_zone0/temp", 1, -1 },
         // { wifi_essid, "\U000f0317 [%s]"SEP, "eth0", 60, -1 },
         { wifi_essid,   "\uf1eb [%s]"SEP,       "wlan0", ONE_MIN, -1 },
         { battery,      "%s" SEP,               "BAT1", ONE_MIN, -1 },
-        { alsa_master_vol, "%s" SEP,            "", ONE_MIN, 1 },
+        { alsa_master_vol, "%s" SEP,            "", INT_MAX, 1 },
 	{ datetime,        "%s",                "%H:%M %d-%m-%Y", ONE_MIN,   -1 },
 };
 
