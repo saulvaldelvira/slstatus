@@ -5,6 +5,7 @@ const unsigned int interval = 1000;
 
 /* text to show if no value can be retrieved */
 static const char unknown_str[] = "n/a";
+static const int skip_fmt_on_empty_str = 1;
 
 /* maximum command output length */
 #define CMDLEN 128
@@ -65,9 +66,13 @@ static const char unknown_str[] = "n/a";
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
  * wifi_perc           WiFi signal in percent          interface name (wlan0)
  */
+
+#define SEP " | "
+
 static const struct arg args[] = {
 	/* function format          argument turn signal */
-        { alsa_master_vol, "%s", "", 60, -1 },
+        { battery, "%s" SEP, "BAT1PEP", 60, -1 },
+        { alsa_master_vol, "%s" SEP, "", 60, -1 },
 	{ datetime, "%s",           "%H:%M %d-%m-%Y", 60,   -1 },
 };
 

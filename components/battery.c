@@ -35,46 +35,76 @@
 		return NULL;
 	}
 
-	const char *
-	battery_perc(const char *bat)
-	{
+        static int get_battery_perc(const char *bat) {
 		int cap_perc;
 		char path[PATH_MAX];
 
 		if (esnprintf(path, sizeof(path), POWER_SUPPLY_CAPACITY, bat) < 0)
-			return NULL;
-		if (pscanf(path, "%d", &cap_perc) != 1)
-			return NULL;
+			return -1;
 
+                if (!file_exists(path))
+                        return -2;
+
+		if (pscanf(path, "%d", &cap_perc) != 1)
+			return -1;
+
+		return cap_perc;
+        }
+
+	const char *
+	battery_perc(const char *bat)
+	{
+                int cap_perc = get_battery_perc(bat);
 		return bprintf("%d", cap_perc);
 	}
 
-	const char *
-	battery_state(const char *bat)
-	{
+        typedef enum battery_state {
+                CHARGING,
+                DISCHARGING,
+                FULL,
+                NOT_CHARGING,
+                UNKNOWN = -1
+        } battery_state_t;
+
+        static battery_state_t
+        get_battery_state(const char *bat) {
+
 		static struct {
 			char *state;
-			char *symbol;
+			battery_state_t value;
 		} map[] = {
-			{ "Charging",    "+" },
-			{ "Discharging", "-" },
-			{ "Full",        "o" },
-			{ "Not charging", "o" },
+			{ "Charging",    CHARGING },
+			{ "Discharging", DISCHARGING },
+			{ "Full",        FULL },
+			{ "Not charging", NOT_CHARGING },
 		};
 		size_t i;
 		char path[PATH_MAX], state[12];
 
 		if (esnprintf(path, sizeof(path), POWER_SUPPLY_STATUS, bat) < 0)
-			return NULL;
+			return -1;
 		if (pscanf(path, "%12[a-zA-Z ]", state) != 1)
-			return NULL;
+			return -1;
 
 		for (i = 0; i < LEN(map); i++)
 			if (!strcmp(map[i].state, state))
 				break;
 
-		return (i == LEN(map)) ? "?" : map[i].symbol;
+		return (i == LEN(map)) ? UNKNOWN : map[i].value;
+        }
+
+	const char *
+	battery_state(const char *bat)
+	{
+                switch (get_battery_state(bat)) {
+                case CHARGING: return "+";
+                case DISCHARGING: return "-";
+                case FULL: return "O";
+                case NOT_CHARGING: return "o";
+                default: return "?";
+                }
 	}
+
 
 	const char *
 	battery_remaining(const char *bat)
@@ -111,6 +141,41 @@
 
 		return "";
 	}
+
+        static const char* get_icon(int perc, battery_state_t state) {
+                if (perc >= 90)
+                        return "\U000f0079";
+                else if (perc >= 80)
+                        return "\U000f0081";
+                else if (perc >= 70)
+                        return "\U000f0080";
+                else if (perc >= 60)
+                        return "\U000f007f";
+                else if (perc >= 50)
+                        return "\U000f007e";
+                else if (perc >= 40)
+                        return "\U000f007d";
+                else if (perc >= 30)
+                        return "\U000f007c";
+                else if (perc >= 20)
+                        return "\U000f007b";
+                else
+                        return "\U000f007a";
+        }
+
+        const char* battery(const char *file) {
+                if (!file)
+                        file = "BAT1";
+                int perc = get_battery_perc(file);
+                if (perc == -1)
+                        return NULL;
+                else if (perc == -2) {
+                        return "";
+                }
+                battery_state_t state = get_battery_state(file);
+                const char *icon = get_icon(perc, state);
+                return bprintf("%s%d%%", icon, perc);
+        }
 #elif defined(__OpenBSD__)
 	#include <fcntl.h>
 	#include <machine/apmvar.h>

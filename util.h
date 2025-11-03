@@ -16,3 +16,5 @@ const char *bprintf(const char *fmt, ...);
 const char *fmt_human(uintmax_t num, int base);
 int pscanf(const char *path, const char *fmt, ...);
 int lscanf(FILE *fp, const char *key, const char *fmt, void *res);
+
+int file_exists(const char *path);

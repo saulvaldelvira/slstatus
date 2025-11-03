@@ -59,7 +59,11 @@ printstatus(unsigned int iter)
 		if (!(res = args[i].func(args[i].args)))
 			res = unknown_str;
 
-		if (esnprintf(statuses[i], sizeof(statuses[i]), args[i].fmt, res) < 0)
+                const char *fmt = args[i].fmt;
+                if (strlen(res) == 0 && skip_fmt_on_empty_str)
+                        fmt = "%s";
+
+		if (esnprintf(statuses[i], sizeof(statuses[i]), fmt, res) < 0)
 			break;
 	}
 

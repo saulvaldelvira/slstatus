@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "util.h"
 
@@ -155,4 +156,8 @@ lscanf(FILE *fp, const char *key, const char *fmt, void *res)
 
 		rewind(fp);
 		return (n == 1) ? 1 : -1;
+}
+
+int file_exists(const char *path) {
+        return access(path, F_OK) == 0;
 }
