@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "../slstatus.h"
 #include "../util.h"
@@ -47,6 +48,15 @@
 		               ((b[0] + b[1] + b[2] + b[5] + b[6]) -
 		                (a[0] + a[1] + a[2] + a[5] + a[6])) / sum));
 	}
+
+        const char*
+        cpu_load(const char *unused) {
+                float load;
+                if (pscanf("/proc/loadavg", "%f", &load) != 1) {
+                        return NULL;
+                }
+                return bprintf("%.2f", load);
+        }
 #elif defined(__OpenBSD__)
 	#include <sys/param.h>
 	#include <sys/sched.h>

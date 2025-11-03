@@ -71,6 +71,10 @@ static const int skip_fmt_on_empty_str = 1;
 
 static const struct arg args[] = {
 	/* function format          argument turn signal */
+        // { wifi_essid, "\U000f0317 [%s]"SEP, "eth0", 60, -1 },
+        { cpu_load, "\U0000f4bc %s"SEP, "", 5, -1 },
+        { temp, "%sºC"SEP, "/sys/class/thermal/thermal_zone0/temp", 10, -1 },
+        { wifi_essid, "\uf1eb [%s]"SEP, "wlan0", 60, -1 },
         { battery, "%s" SEP, "BAT1PEP", 60, -1 },
         { alsa_master_vol, "%s" SEP, "", 60, -1 },
 	{ datetime, "%s",           "%H:%M %d-%m-%Y", 60,   -1 },

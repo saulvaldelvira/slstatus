@@ -12,6 +12,7 @@ const char *cat(const char *path);
 /* cpu */
 const char *cpu_freq(const char *unused);
 const char *cpu_perc(const char *unused);
+const char *cpu_load(const char *unused);
 
 /* datetime */
 const char *datetime(const char *fmt);

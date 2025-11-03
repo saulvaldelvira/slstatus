@@ -16,8 +16,23 @@
 		if (pscanf(file, "%ju", &temp) != 1)
 			return NULL;
 
-		return bprintf("%ju", temp / 1000);
+                temp /= 1000;
+
+                const char *icon;
+                if (temp < 50)
+                        icon = "\U0000f2cb";
+                else if (temp < 60)
+                        icon = "\U0000f2ca";
+                else if (temp < 70)
+                        icon = "\U0000f2c9";
+                else if (temp < 80)
+                        icon = "\U0000f2c7";
+                else
+                        icon = "\U0000ef2a";
+
+		return bprintf("%s%ju", icon, temp);
 	}
+
 #elif defined(__OpenBSD__)
 	#include <stdio.h>
 	#include <sys/time.h> /* before <sys/sensors.h> for struct timeval */
