@@ -100,7 +100,7 @@ main(int argc, char *argv[])
 	struct sigaction act;
 	struct timespec start, current, diff, intspec, wait;
 	unsigned int iter = 0;
-	int i, ret;
+	int i, ret = 0;
 
 	ARGBEGIN {
 	case 'v':

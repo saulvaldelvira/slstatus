@@ -79,7 +79,7 @@
 			{ "Not charging", NOT_CHARGING },
 		};
 		size_t i;
-		char path[PATH_MAX], state[12];
+		char path[PATH_MAX], state[13];
 
 		if (esnprintf(path, sizeof(path), POWER_SUPPLY_STATUS, bat) < 0)
 			return -1;
