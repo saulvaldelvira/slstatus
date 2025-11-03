@@ -59,6 +59,7 @@ static const char unknown_str[] = "n/a";
  * up                  interface is running            interface name (eth0)
  * uptime              system uptime                   NULL
  * username            username of current user        NULL
+ * alsa_master_vol     ALSA Master device volume       NULL
  * vol_perc            OSS/ALSA volume in percent      mixer file (/dev/mixer)
  *                                                     NULL on OpenBSD/FreeBSD
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
@@ -66,6 +67,7 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument turn signal */
+        { alsa_master_vol, "%s", "", 60, -1 },
 	{ datetime, "%s",           "%H:%M %d-%m-%Y", 60,   -1 },
 };
 
