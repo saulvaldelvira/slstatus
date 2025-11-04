@@ -86,3 +86,6 @@ const char *alsa_master_vol(const char *unused);
 /* wifi */
 const char *wifi_essid(const char *interface);
 const char *wifi_perc(const char *interface);
+
+/* pacman */
+const char* pacman_last_upgrade(const char *unused);
