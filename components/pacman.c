@@ -17,7 +17,7 @@ const char* pacman_last_upgrade(const char *unused) {
 
 
         if (days >= 2) {
-                return bprintf("%d since last upgrade", days);
+                return bprintf(" \U000f06b0 Update!");
         } else {
                 return "";
         }
