@@ -10,6 +10,7 @@ const unsigned int interval = 10000;
 /* text to show if no value can be retrieved */
 static const char unknown_str[] = "n/a";
 static const int skip_fmt_on_empty_str = 1;
+#define SYNC_TO_MINS 1
 
 /* maximum command output length */
 #define CMDLEN 128

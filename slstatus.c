@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <unistd.h>
 #include <errno.h>
 #include <signal.h>
 #include <stdio.h>
@@ -129,6 +130,14 @@ main(int argc, char *argv[])
 
 	if (!sflag && !(dpy = XOpenDisplay(NULL)))
 		die("XOpenDisplay: Failed to open display");
+
+#if SYNC_TO_MINS
+        if (interval > 1000) {
+                printstatus(0);
+                time_t rem = 60 - time(0) % 60;
+                sleep(rem);
+        }
+#endif
 
 	do {
 		if (clock_gettime(CLOCK_MONOTONIC, &start) < 0)
