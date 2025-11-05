@@ -87,7 +87,7 @@ static const struct arg args[] = {
 	/* function             format            argument        turn      signal */
         { run_command, "\U0000f001 %s" SEP, cmus_cmd, INT_MAX, 2 },
         // { pacman_last_upgrade, "%s" SEP, "", 2 * TEN_MIN, -1 },
-        { run_command,  " \U0000f073 %s"SEP,    callendar_cmd,  TEN_MIN,  -1},
+        { run_command,  " \U0000f073 %s"SEP,    callendar_cmd,  TEN_MIN,  3 },
         { cpu_load,     "\U0000f4bc %s"SEP,     "", 1, -1 },
         { temp,         "%sºC"SEP,              "/sys/class/thermal/thermal_zone0/temp", 1, -1 },
         // { wifi_essid, "\U000f0317 [%s]"SEP, "eth0", 60, -1 },
