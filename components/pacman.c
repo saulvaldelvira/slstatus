@@ -4,8 +4,10 @@
 
 const char* pacman_last_upgrade(const char *unused) {
 
-        char *cmd = "last=$( grep 'full system upgrade' /var/log/pacman.log | tail -1 | awk -F'[][]' ' { print $2; }' )\
-        date -d \"$last\" +%s";
+        char *cmd = "date +%s --date $(\
+                        grep 'full system upgrade' /var/log/pacman.log | tail -1 | \
+                        awk -F'[][]' ' { print $2; }' \
+                    )";
 
 	FILE *fp = popen(cmd, "r");
         int last_update_secs;
