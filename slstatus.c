@@ -68,7 +68,8 @@ printstatus(unsigned int iter)
 			break;
 	}
 
-	status[0] = '\0';
+	status[0] = ' ';
+	status[1] = '\0';
 	for (i = 0; i < LEN(args); i++)
 		strcat(status, statuses[i]);
 	status[strlen(status)] = '\0';
