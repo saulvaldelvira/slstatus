@@ -14,3 +14,5 @@ while IFS=';' read -r name start end ; do
     #     return
     fi
 done<<<$next_apt
+
+echo ""
