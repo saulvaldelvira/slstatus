@@ -92,7 +92,7 @@ static const struct arg args[] = {
         { run_command,  "\U0000f073 %s"SEP,    callendar_cmd,  TEN_MIN,  3 },
         { cpu_load,     "\U0000f4bc %s"SEP,     "", 1, -1 },
         { temp,         "%sºC"SEP,              "/sys/class/thermal/thermal_zone0/temp", 1, -1 },
-        // { wifi_essid, "\U000f0317 [%s]"SEP, "eth0", 60, -1 },
+        { nmgr_ssid , "\U000f0317 [%s]"SEP, "ethernet", 60, -1 },
         { wifi_essid,   "\uf1eb [%s]"SEP,       "wlan0", ONE_MIN, -1 },
         { battery,      "%s" SEP,               "BAT1", ONE_MIN, -1 },
         { alsa_master_vol, "%s" SEP,            "", INT_MAX, 1 },
