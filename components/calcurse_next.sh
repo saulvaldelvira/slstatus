@@ -1,6 +1,12 @@
 #!/bin/sh
 
-next_apt=$(calcurse -Q --from today -r2 --filter-type apt --format-apt "%m;%s;%e\n" | grep ';')
+fmt="%m;%s;%e\n"
+next_apt=$(calcurse -Q --from today -r2 --filter-type cal \
+    --format-apt $fmt \
+    --format-recur-apt $fmt \
+    --format-event $fmt \
+    --format-recur-event $fmt \
+    | grep ';')
 
 curr=$(date +%s)
 while IFS=';' read -r name start end ; do
