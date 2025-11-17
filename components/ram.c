@@ -1,5 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 #include <stdio.h>
+#include <string.h>
 
 #include "../slstatus.h"
 #include "../util.h"
@@ -86,8 +87,9 @@
 		fclose(fp);
 
 		used = total - free - buffers - cached - sreclaimable + shmem;
-		return fmt_human(used * 1024, 1024);
+		return fmt_human_ex(used * 1000, 1000, 1, 0);
 	}
+
 #elif defined(__OpenBSD__)
 	#include <stdlib.h>
 	#include <sys/sysctl.h>

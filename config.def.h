@@ -90,6 +90,7 @@ static const struct arg args[] = {
         { run_command, "\U0000f001 %s" SEP, cmus_cmd, INT_MAX, 2 },
         { pacman_last_upgrade, "%s" SEP, "", ONE_HOUR, -1 },
         { run_command,  "\U0000f073 %s"SEP,    callendar_cmd,  TEN_MIN,  3 },
+        { ram_used, "\U0000efc5 %s"SEP, "", 1, -1 },
         { cpu_load,     "\U0000f4bc %s"SEP,     "", 1, -1 },
         { temp,         "%sºC"SEP,              "/sys/class/thermal/thermal_zone0/temp", 1, -1 },
         { nmgr_ssid , "\U000f0317 [%s]"SEP, "ethernet", 60, -1 },

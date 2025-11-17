@@ -58,6 +58,7 @@ const char *ram_free(const char *unused);
 const char *ram_perc(const char *unused);
 const char *ram_total(const char *unused);
 const char *ram_used(const char *unused);
+const char *ram_used_over_total(const char *unused);
 
 /* run_command */
 const char *run_command(const char *cmd);

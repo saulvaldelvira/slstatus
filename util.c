@@ -122,6 +122,44 @@ fmt_human(uintmax_t num, int base)
 	return bprintf("%.1f %s", scaled, prefix[i]);
 }
 
+const char *
+fmt_human_ex(uintmax_t num, int base, int skip_decimals_under_gb, int sep_suffix)
+{
+	double scaled;
+	size_t i, prefixlen;
+	const char **prefix;
+	const char *prefix_1000[] = { "", "k", "M", "G", "T", "P", "E", "Z",
+	                              "Y" };
+	const char *prefix_1024[] = { "", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei",
+	                              "Zi", "Yi" };
+
+	switch (base) {
+	case 1000:
+		prefix = prefix_1000;
+		prefixlen = LEN(prefix_1000);
+		break;
+	case 1024:
+		prefix = prefix_1024;
+		prefixlen = LEN(prefix_1024);
+		break;
+	default:
+		warn("fmt_human: Invalid base");
+		return NULL;
+	}
+
+	scaled = num;
+	for (i = 0; i < prefixlen && scaled >= base; i++)
+		scaled /= base;
+
+        char *sep = sep_suffix ? " " : "";
+        if (skip_decimals_under_gb && i <= 2) {
+                scaled = (int)scaled;
+                return bprintf("%.0f%s%s", scaled, sep, prefix[i]);
+        } else {
+                return bprintf("%.1f%s%s", scaled, sep, prefix[i]);
+        }
+}
+
 int
 pscanf(const char *path, const char *fmt, ...)
 {
