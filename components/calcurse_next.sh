@@ -10,7 +10,11 @@ next_apt=$(calcurse -Q --from today -r2 --filter-type cal \
 
 curr=$(date +%s)
 while IFS=';' read -r name start end ; do
-    [ -z $start ] && continue
+    case $start in
+        [0-9]*) ;;
+        *) continue
+    esac
+
     if [ "$start" -gt "$curr" ]; then
         s=$(date --date="@$start" "+%H:%M")
         echo "$name ($s)"
