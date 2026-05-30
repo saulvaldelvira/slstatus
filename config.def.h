@@ -85,12 +85,15 @@ const char cmus_cmd[] = {
 ,0
 };
 
+#define WEATHER_CMD "curl 'https://wttr.in/Grado-Asturias?format=1' 2>/dev/null | sed 's/\\s//g' | sed 's/.*\\[.*\\]/n\\/a/'"
+
 static const struct arg args[] = {
 	/* function             format            argument        turn      signal */
         { run_command, "\U0000f001 %s" SEP, cmus_cmd, INT_MAX, 2 },
         { pacman_last_upgrade, "%s" SEP, "", ONE_HOUR, -1 },
         { run_command,  "\U0000f073 %s"SEP,    callendar_cmd,  TEN_MIN,  3 },
         { uptime, "Up %s"SEP, "", ONE_MIN, -1 },
+        { run_command, "%s"SEP, WEATHER_CMD, TEN_MIN * 3, -1 },
         { ram_used, "\U0000efc5 %s"SEP, "", 1, -1 },
         { cpu_load,     "\U0000f4bc %s"SEP,     "", 1, -1 },
         { temp,         "%sºC"SEP,              "/sys/class/thermal/thermal_zone0/temp", 1, -1 },
